@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Fitness Website</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #0d0d0d;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    .contact-container {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 40px;
+      background: #111;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffffff;
+      font-size: 36px;
+      margin-bottom: 40px;
+      text-shadow: 0 0 8px #ffffff;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 16px;
+      resize: none;
+      transition: 0.3s;
+      box-shadow: inset 0 0 5px rgba(255,255,255,0.2);
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      box-shadow: 0 0 10px #ffffff;
+    }
+
+    .contact-form button {
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #111;
+      font-weight: 600;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 8px #ffffff;
+    }
+
+    .contact-form button:hover {
+      box-shadow: 0 0 15px #ffffff, 0 0 25px #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .contact-info {
+      margin-top: 50px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .contact-info div {
+      flex: 1;
+      min-width: 200px;
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 8px rgba(255,255,255,0.2);
+    }
+
+    .contact-info h3 {
+      margin-bottom: 12px;
+      color: #ffffff;
+      text-shadow: 0 0 5px #ffffff;
+    }
+
+    .contact-info p {
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    @media (max-width: 600px) {
+      .contact-info {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contact-container">
+    <h1>Contact Us</h1>
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <input type="text" placeholder="Subject" required>
+      <textarea rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+    <div class="contact-info">
+      <div>
+        <h3>Address</h3>
+        <p>123 Fitness Street, Gym City, India</p>
+      </div>
+      <div>
+        <h3>Email</h3>
+        <p>support@fitnesswebsite.com</p>
+      </div>
+      <div>
+        <h3>Phone</h3>
+        <p>+91 8483942832</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

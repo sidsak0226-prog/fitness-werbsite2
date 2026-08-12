@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutrition Guide</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #0d0d0d;
+      color: #fff;
+      padding: 50px 20px;
+      line-height: 1.6;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 15px;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #ccc;
+      margin-bottom: 40px;
+      font-size: 1.1em;
+    }
+
+    /* Nutrition Cards */
+    .nutrition-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-bottom: 60px;
+    }
+
+    .nutrition-card {
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 15px;
+      transition: 0.3s;
+      border: 1px solid #333;
+    }
+
+    .nutrition-card:hover {
+      background: #fff;
+      color: #000;
+      transform: translateY(-5px);
+    }
+
+    .nutrition-card h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .nutrition-card p {
+      color: #bbb;
+      font-size: 15px;
+    }
+
+    .nutrition-card:hover p {
+      color: #333;
+    }
+
+    /* Macronutrient Calculator */
+    .calculator {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 600px;
+      margin: 40px auto;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(255,255,255,0.05);
+    }
+
+    .calculator input, .calculator select {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #444;
+      background: #0d0d0d;
+      color: #fff;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .calculator button {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    .calculator button:hover {
+      background: #000;
+      color: #fff;
+      border: 1px solid #fff;
+      transform: scale(1.05);
+    }
+
+    .results {
+      margin-top: 20px;
+      color: #ccc;
+      font-size: 16px;
+      text-align: left;
+      line-height: 1.8;
+    }
+
+    /* Food examples */
+    .food-section {
+      margin: 60px auto;
+      max-width: 1000px;
+    }
+
+    .food-section h2 {
+      margin-bottom: 20px;
+    }
+
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .food-card {
+      background: #fff;
+      color: #000;
+      border-radius: 10px;
+      padding: 15px;
+      font-weight: 500;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    .food-card:hover {
+      background: #f0f0f0;
+      transform: translateY(-4px);
+    }
+
+    /* Tips section */
+    .tips {
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 15px;
+      border: 1px solid #333;
+      max-width: 900px;
+      margin: 60px auto;
+    }
+
+    .tips h2 {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .tips ul {
+      list-style: none;
+      color: #ccc;
+      font-size: 16px;
+      text-align: left;
+    }
+
+    .tips li {
+      margin: 10px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .tips li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2em;
+      }
+      p.subtitle {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍎 Nutrition Guide</h1>
+  <p class="subtitle">Master your diet — understand nutrients, calculate macros, and eat smart!</p>
+
+  <!-- Nutrition Info Cards -->
+  <section class="nutrition-grid">
+    <div class="nutrition-card">
+      <h2>💪 Protein</h2>
+      <p>Builds and repairs muscles. Sources: chicken, eggs, fish, beans, tofu, whey protein.</p>
+    </div>
+    <div class="nutrition-card">
+      <h2>🍚 Carbohydrates</h2>
+      <p>Main energy source. Choose complex carbs like oats, brown rice, and sweet potatoes.</p>
+    </div>
+    <div class="nutrition-card">
+      <h2>🥑 Healthy Fats</h2>
+      <p>Supports brain and hormone function. Found in nuts, olive oil, avocados, fatty fish.</p>
+    </div>
+    <div class="nutrition-card">
+      <h2>💧 Hydration</h2>
+      <p>Drink 3–4 liters of water daily. Stay hydrated to support recovery and performance.</p>
+    </div>
+    <div class="nutrition-card">
+      <h2>🍊 Vitamins & Minerals</h2>
+      <p>Essential for immunity and recovery. Eat colorful fruits and vegetables daily.</p>
+    </div>
+  </section>
+
+  <!-- Macronutrient Calculator -->
+  <section class="calculator">
+    <h2>⚙️ Macronutrient Calculator</h2>
+    <p>Enter your details to estimate daily protein, carbs, and fat intake.</p>
+
+    <input type="number" id="weight" placeholder="Enter your weight (kg)">
+    <select id="goal">
+      <option value="weight_loss">Weight Loss</option>
+      <option value="muscle_gain">Muscle Gain</option>
+      <option value="maintenance">Maintenance</option>
+    </select>
+    <br>
+    <button onclick="calculateMacros()">Calculate</button>
+
+    <div id="results" class="results"></div>
+  </section>
+
+  <!-- Food Categories -->
+  <section class="food-section">
+    <h2>🥗 Recommended Foods</h2>
+    <div class="food-grid">
+      <div class="food-card">Chicken Breast</div>
+      <div class="food-card">Oats</div>
+      <div class="food-card">Brown Rice</div>
+      <div class="food-card">Avocado</div>
+      <div class="food-card">Greek Yogurt</div>
+      <div class="food-card">Egg Whites</div>
+      <div class="food-card">Sweet Potato</div>
+      <div class="food-card">Spinach</div>
+      <div class="food-card">Salmon</div>
+      <div class="food-card">Mixed Nuts</div>
+    </div>
+  </section>
+
+  <!-- Nutrition Tips -->
+  <section class="tips">
+    <h2>💡 Nutrition Tips</h2>
+    <ul>
+      <li>Eat every 3–4 hours to maintain steady energy levels.</li>
+      <li>Include protein in every meal to support muscle recovery.</li>
+      <li>Limit processed foods and sugary drinks.</li>
+      <li>Plan meals ahead to avoid unhealthy snacking.</li>
+      <li>Track your calorie intake if you have specific fitness goals.</li>
+    </ul>
+  </section>
+
+  <script>
+    function calculateMacros() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const goal = document.getElementById('goal').value;
+      const results = document.getElementById('results');
+
+      if (isNaN(weight) || weight <= 0) {
+        results.innerHTML = "<p>Please enter a valid weight.</p>";
+        return;
+      }
+
+      let protein, carbs, fat;
+
+      if (goal === "weight_loss") {
+        protein = weight * 2.0;
+        carbs = weight * 2.5;
+        fat = weight * 0.8;
+      } else if (goal === "muscle_gain") {
+        protein = weight * 2.2;
+        carbs = weight * 4;
+        fat = weight * 1.0;
+      } else {
+        protein = weight * 1.8;
+        carbs = weight * 3;
+        fat = weight * 0.9;
+      }
+
+      results.innerHTML = `
+        <p><strong>Recommended Daily Intake:</strong></p>
+        <p>Protein: ${protein.toFixed(1)}g</p>
+        <p>Carbohydrates: ${carbs.toFixed(1)}g</p>
+        <p>Fats: ${fat.toFixed(1)}g</p>
+      `;
+    }
+  </script>
+</body>
+</html>

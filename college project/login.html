@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FITTECH Login</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1e1f29, #2c2d3a);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .container {
+      width: 360px;
+      background: rgba(255,255,255,0.06);
+      padding: 40px 30px;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #00e0ff;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 14px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #00e0ff;
+    }
+
+    .remember {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      margin: 10px 0 20px;
+    }
+
+    .remember label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: #ffffff;
+      color: #1e1f29;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-btn:hover {
+      background: #e0e0e0;
+    }
+
+    .message {
+      font-size: 14px;
+      text-align: center;
+      margin-top: 15px;
+      height: 20px;
+    }
+
+    .message.success {
+      color: #ffffff; /* white instead of green */
+    }
+
+    .message.error {
+      color: #ff4d4d;
+    }
+
+    a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>FITTECH Login</h2>
+
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+
+    <div class="remember">
+      <label><input type="checkbox" id="remember"> Remember me</label>
+      <a href="#">Forgot Password?</a>
+    </div>
+
+    <button class="login-btn" onclick="login()">Login</button>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const message = document.getElementById('message');
+
+      if (username === 'fittech' && password === '12345') {
+        message.textContent = 'Access Granted. Redirecting...';
+        message.className = 'message success';
+        setTimeout(() => {
+          window.location.href = 'sidd.html';
+        }, 1000);
+      } else {
+        message.textContent = 'Invalid username or password.';
+        message.className = 'message error';
+      }
+    }
+  </script>
+</body>
+</html>

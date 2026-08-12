@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fitness Personal Trainer Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 500px;
+      max-height: 700px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: #2a9d8f;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .chat-body {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .chat-message {
+      margin-bottom: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      max-width: 80%;
+      line-height: 1.4;
+    }
+
+    .user {
+      text-align: right;
+      background: #e0e0e0;
+      margin-left: auto;
+    }
+
+    .bot {
+      text-align: left;
+      background: #d1f0ec;
+      color: #033d34;
+      margin-right: auto;
+    }
+
+    .chat-footer {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px;
+      border: none;
+      background: #2a9d8f;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1e6d63;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="chat-header">Your Fitness Coach 🤖💪</div>
+  <div class="chat-body" id="chat-body"></div>
+  <div class="chat-footer">
+    <input type="text" id="user-input" placeholder="Ask me anything about workouts, diet, or tips..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+  const chatBody = document.getElementById("chat-body");
+  let lastTopic = "";
+
+  // Expanded responses (50+)
+  const responses = {
+    "hi": "Hey there! 👋 Ready to crush some fitness goals?",
+    "hello": "Hello champ! 💪 How’s your energy today?",
+    "who are you": "I’m your personal AI Fitness Coach 🤖. I help with workouts, diet, and motivation.",
+    "what is your name": "You can call me CoachFit! 🏋️",
+    "thanks": "You got it! Keep grinding. 🔥",
+    "thank you": "Always here for you! 🙌",
+    "bye": "Catch you later! Stay strong 💪🔥",
+    "how are you": "I’m pumped and ready! How about you? 💯",
+    "morning": "Good morning 🌅! Start your day with water and some light stretches.",
+    "night": "Good night 🌙. Sleep well, muscles grow while you rest.",
+    "good job": "Thanks champ! Now let’s make you proud of yourself too 💪",
+    "motivation": "Discipline > Motivation. Build habits, stay consistent. Progress takes time!",
+    "discipline": "Discipline is the bridge between goals and success. Keep walking it daily.",
+    "focus": "Focus on one goal at a time. Strength? Fat loss? Let’s crush it step by step.",
+    "consistency": "Small steps daily > random intense bursts. Consistency wins always.",
+    "chest": "For chest: bench press, push-ups, and dumbbell flys. Squeeze at the top for maximum growth.",
+    "back": "For back: pull-ups, rows, and lat pulldowns. Deadlifts make your back strong & thick.",
+    "shoulder": "For shoulders: overhead press, lateral raises, and face pulls. Train all 3 heads.",
+    "biceps": "For biceps: curls (barbell/dumbbell), hammer curls, and preacher curls. Don’t swing!",
+    "triceps": "For triceps: dips, close-grip bench press, and rope pushdowns. Strong tris = strong arms.",
+    "legs": "For legs: squats, lunges, Romanian deadlifts, and calf raises. No skipping leg day!",
+    "abs": "For abs: planks, hanging leg raises, and bicycle crunches. 2–3x weekly is enough.",
+    "diet": "Balanced diet: protein, smart carbs, veggies, healthy fats. Avoid processed junk.",
+    "protein": "Top proteins: chicken, eggs, fish, Greek yogurt, beans, whey protein.",
+    "carbs": "Smart carbs: oats, brown rice, quinoa, sweet potato. Avoid too much sugar.",
+    "fats": "Healthy fats: nuts, avocado, olive oil, fatty fish. Great for hormones & recovery.",
+    "gain": "Eat more calories than you burn. Heavy lifts, progressive overload, quality sleep.",
+    "lose": "Eat fewer calories than you burn. High protein, mix cardio + weights.",
+    "cardio": "Cardio: jogging, cycling, HIIT. Great for heart & fat burn.",
+    "hiit": "HIIT = High Intensity Interval Training. 20 minutes can burn more than an hour jog.",
+    "yoga": "Yoga builds flexibility, balance, and reduces stress. Perfect for recovery.",
+    "rest": "Rest = growth. Sleep 7–9 hours. Muscles repair only when you rest.",
+    "hydration": "Drink 3–4 liters of water daily. Dehydration kills gains.",
+    "supplements": "Supplements help, but food first. Best: whey protein, creatine, omega-3.",
+    "creatine": "Creatine = top supplement for strength & size. 5g daily, safe for most people.",
+    "multivitamin": "Multivitamins fill gaps in your diet. Think of them as insurance.",
+    "recovery": "Recovery: foam roll, stretch, hydrate, sleep. Don’t ignore it.",
+    "warmup": "Warm up 5–10 min: light cardio + dynamic stretches. Prevents injury.",
+    "cooldown": "Cooldown after training: stretch & deep breathing. Helps recovery.",
+    "home": "At home: push-ups, bodyweight squats, planks, burpees. Add resistance bands.",
+    "bodyweight": "Bodyweight moves: pull-ups, dips, push-ups, planks. Great for strength anywhere.",
+    "plan": "Do you want a plan for muscle gain, fat loss, or strength?",
+    "strength": "Strength plan: focus on squats, deadlifts, bench, overhead press. Low reps, heavy weight.",
+    "fat loss": "Fat loss plan: calorie deficit, weights + cardio, 10k steps daily.",
+    "muscle gain": "Muscle gain plan: eat surplus calories, train 4–5 days, progressive overload.",
+    "stretching": "Stretch daily. Improves mobility, prevents injury, feels amazing.",
+    "tracking": "Track progress: use logbooks, photos, or apps. Numbers don’t lie!",
+    "water": "Tip: Start each day with 2 glasses of water. Hydration jumpstarts performance.",
+    "sleep": "Sleep is the secret weapon. Growth hormone rises at night.",
+    "injury": "If injured: rest, ice, compress, elevate. Don’t push through pain.",
+    "coach": "I’m your Coach 🤖. I’ll guide you through workouts, nutrition, and mindset.",
+    "mindset": "Mindset > everything. Positive, disciplined, and focused = unstoppable results."
+  };
+
+  function appendMessage(message, sender) {
+    const msgDiv = document.createElement("div");
+    msgDiv.classList.add("chat-message", sender);
+    msgDiv.innerText = message;
+    chatBody.appendChild(msgDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function getBotResponse(userMessage) {
+    userMessage = userMessage.toLowerCase();
+
+    // Handle yes/no with memory
+    if (userMessage === "yes" && lastTopic === "plan") {
+      return "Awesome! Do you want a plan for fat loss, muscle gain, or strength?";
+    }
+    if (userMessage === "yes" && lastTopic) {
+      return "Great! Let’s keep building on " + lastTopic + ".";
+    }
+    if (userMessage === "no") {
+      return "No problem champ! What else do you want to talk about?";
+    }
+
+    // Match keywords
+    for (let key in responses) {
+      if (userMessage.includes(key)) {
+        lastTopic = key;
+        return responses[key];
+      }
+    }
+
+    // Default fallback
+    return "That’s interesting! I may not fully get it, but here’s a tip: stay consistent, train smart, and eat clean. Do you want me to make you a plan?";
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("user-input");
+    const message = input.value.trim();
+    if (!message) return;
+
+    appendMessage("You: " + message, "user");
+    input.value = "";
+
+    setTimeout(() => {
+      const botReply = getBotResponse(message);
+      appendMessage("Coach: " + botReply, "bot");
+    }, 600);
+  }
+</script>
+
+</body>
+</html>

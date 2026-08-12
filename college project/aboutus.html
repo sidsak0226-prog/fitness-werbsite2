@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us - Modern Black Theme</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    .about {
+      position: relative;
+      padding: 80px 20px;
+      min-height: 100vh;
+      background: url('fitness-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Dark overlay for readability */
+    .about::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 1;
+    }
+
+    .about-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .about-text {
+      flex: 1 1 500px;
+      padding: 20px 40px;
+    }
+
+    .about-text h2 {
+      font-size: 48px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .about-text p {
+      font-size: 18px;
+      color: #ccc;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .about-text a {
+      display: inline-block;
+      padding: 12px 28px;
+      background: #fff;
+      color: #000;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .about-text a:hover {
+      background: #ff3c3c;
+      color: #fff;
+      letter-spacing: 1px;
+      box-shadow: 0 0 15px rgba(255, 60, 60, 0.5);
+    }
+
+    .about-img {
+      flex: 1 1 400px;
+      padding: 20px 40px;
+      text-align: center;
+    }
+
+    .about-img img {
+      width: 100%;
+      max-width: 450px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s ease;
+    }
+
+    .about-img img:hover {
+      transform: scale(1.03);
+    }
+
+    @media (max-width: 768px) {
+      .about-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .about-text, .about-img {
+        padding: 20px;
+      }
+
+      .about-text h2 {
+        font-size: 36px;
+      }
+
+      .about-text p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="about">
+    <div class="about-content">
+      <div class="about-text">
+        <h2>About Our Fitness Mission</h2>
+        <p>
+          At our core, we empower individuals to achieve their fitness goals with smart tools, expert guidance, and constant motivation. Our AI-driven features and workout planning help you stay focused and elevate your performance.
+        </p>
+        <a href="#services">Explore Services</a>
+      </div>
+      <div class="about-img">
+        <img src="WhatsApp Image 2025-09-30 at 12.41.51 PM.jpeg" alt="Person working out with weights">
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

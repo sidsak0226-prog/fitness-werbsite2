@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 12px rgba(255,255,255,0.7);
+    }
+
+    .tracker-container {
+      background: rgba(255,255,255,0.1);
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 0 25px rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+      max-width: 800px;
+      width: 100%;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      font-size: 1rem;
+      flex: 1;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #fff;
+      color: #333;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #f1f1f1;
+      transform: scale(1.05);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    th {
+      color: #ffea00;
+    }
+
+    canvas {
+      margin-top: 25px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📈 Progress Tracker</h1>
+
+  <div class="tracker-container">
+    <form id="progressForm">
+      <input type="date" id="date" required>
+      <input type="number" id="weight" placeholder="Weight (kg)" required>
+      <button type="submit">Add Entry</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Weight (kg)</th>
+        </tr>
+      </thead>
+      <tbody id="progressTable"></tbody>
+    </table>
+
+    <canvas id="progressChart" height="120"></canvas>
+  </div>
+
+  <script>
+    const form = document.getElementById("progressForm");
+    const tableBody = document.getElementById("progressTable");
+    const ctx = document.getElementById("progressChart").getContext("2d");
+
+    let progressData = JSON.parse(localStorage.getItem("progressData")) || [];
+
+    // Chart.js Line Chart
+    let chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: progressData.map(d => d.date),
+        datasets: [{
+          label: "Weight (kg)",
+          data: progressData.map(d => d.weight),
+          borderColor: "#fff",
+          backgroundColor: "rgba(255,255,255,0.2)",
+          fill: true,
+          tension: 0.3,
+          pointBackgroundColor: "#ffea00"
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: "#fff" } }
+        },
+        scales: {
+          x: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.2)" } },
+          y: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.2)" } }
+        }
+      }
+    });
+
+    // Render Table
+    function renderTable() {
+      tableBody.innerHTML = "";
+      progressData.forEach(entry => {
+        let row = `<tr><td>${entry.date}</td><td>${entry.weight}</td></tr>`;
+        tableBody.innerHTML += row;
+      });
+    }
+    renderTable();
+
+    // Handle Form
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const date = document.getElementById("date").value;
+      const weight = document.getElementById("weight").value;
+
+      progressData.push({ date, weight });
+      localStorage.setItem("progressData", JSON.stringify(progressData));
+
+      // Update Table
+      renderTable();
+
+      // Update Chart
+      chart.data.labels.push(date);
+      chart.data.datasets[0].data.push(weight);
+      chart.update();
+
+      form.reset();
+    });
+  </script>
+
+</body>
+</html>

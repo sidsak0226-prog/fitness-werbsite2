@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark BMI Calculator with Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .bmi-card {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .bmi-card:hover {
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.25);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    label {
+      font-weight: 500;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 6px;
+      color: #ccc;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      background: #2a2a2a;
+      color: #fff;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      background: #333;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      background: #dddddd;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      display: none;
+    }
+
+    canvas {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bmi-card">
+    <h2>💪 BMI Calculator</h2>
+
+    <div class="input-group">
+      <label for="height">Height (cm)</label>
+      <input type="number" id="height" placeholder="Enter height in cm">
+    </div>
+
+    <div class="input-group">
+      <label for="weight">Weight (kg)</label>
+      <input type="number" id="weight" placeholder="Enter weight in kg">
+    </div>
+
+    <button onclick="calculateBMI()">Calculate</button>
+
+    <div class="result" id="resultBox"></div>
+
+    <!-- Chart -->
+    <canvas id="bmiChart" width="400" height="150"></canvas>
+  </div>
+
+  <script>
+    let chartInstance;
+
+    function calculateBMI() {
+      const height = document.getElementById("height").value;
+      const weight = document.getElementById("weight").value;
+      const resultBox = document.getElementById("resultBox");
+
+      if (height === "" || weight === "" || height <= 0 || weight <= 0) {
+        resultBox.style.display = "block";
+        resultBox.style.color = "#ff6666";
+        resultBox.innerHTML = "⚠️ Please enter valid values!";
+        return;
+      }
+
+      const heightInMeters = height / 100;
+      const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
+
+      let status = "";
+      let color = "";
+      if (bmi < 18.5) {
+        status = "Underweight 😕";
+        color = "#3399ff";
+      } else if (bmi < 24.9) {
+        status = "Normal ✅";
+        color = "#ffffff"; // Changed from green to white
+      } else if (bmi < 29.9) {
+        status = "Overweight ⚠️";
+        color = "#ffcc33";
+      } else {
+        status = "Obese 🚨";
+        color = "#ff4d4d";
+      }
+
+      resultBox.style.display = "block";
+      resultBox.style.color = color;
+      resultBox.innerHTML = `Your BMI: <strong>${bmi}</strong><br>Status: <strong>${status}</strong>`;
+
+      // Draw Chart
+      const ctx = document.getElementById("bmiChart").getContext("2d");
+
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+
+      chartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["Underweight", "Normal", "Overweight", "Obese"],
+          datasets: [
+            {
+              label: "BMI Ranges",
+              data: [18.5, 24.9, 29.9, 35],
+              backgroundColor: ["#3399ff", "#ffffff", "#ffcc33", "#ff4d4d"],
+              borderRadius: 8
+            },
+            {
+              label: "Your BMI",
+              data: [bmi, 0, 0, 0],
+              backgroundColor: [color],
+              borderRadius: 8
+            }
+          ]
+        },
+        options: {
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              ticks: { color: "#aaa" },
+              grid: { color: "rgba(255,255,255,0.1)" }
+            },
+            y: {
+              ticks: { color: "#aaa" },
+              grid: { color: "rgba(255,255,255,0.1)" }
+            }
+          }
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
